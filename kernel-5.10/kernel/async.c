@@ -57,7 +57,7 @@ asynchronous and synchronous parts of the kernel.
 
 static async_cookie_t next_cookie = 1;
 
-#define MAX_WORK		32768
+#define MAX_WORK		65536
 #define ASYNC_COOKIE_MAX	ULLONG_MAX	/* infinity cookie */
 
 static LIST_HEAD(async_global_pending);	/* pending from all registered doms */
