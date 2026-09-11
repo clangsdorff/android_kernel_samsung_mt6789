@@ -98,11 +98,20 @@ config_end_time=$(date +%s)
 
 build_start_time=$(date +%s)
 
+DIR="$(readlink -f .)"
+PARENT_DIR="$(readlink -f ${DIR}/..)"
+
+export CROSS_COMPILE="$PARENT_DIR/clang-r450784d/bin/aarch64-linux-gnu-"
+export CC="$PARENT_DIR/clang-r450784d/bin/clang"
+export PATH="$PARENT_DIR/build-tools/path/linux-x86:$PARENT_DIR/clang-r450784d/bin:$PATH"
+export LLVM_LDFLAGS="-fuse-ld=mold"
+export LD="mold"
+export DTC_FLAGS="-@"
+export DEPMOD=depmod
 export LTO=thin
 export ARCH=arm64
 export PLATFORM_VERSION=12
 export LLVM=1
-export LLVM_IAS=1
 export CROSS_COMPILE="aarch64-linux-gnu-"
 export CROSS_COMPILE_COMPAT="arm-linux-gnueabi-"
 export OUT_DIR="../out/target/product/a15/obj/KERNEL_OBJ"

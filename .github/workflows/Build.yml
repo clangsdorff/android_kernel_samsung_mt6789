@@ -3,11 +3,6 @@ name: Build MT6789 Kernel
 on:
   workflow_dispatch:
     inputs:
-      TOOLCHAIN_URL:
-        description: 'URL of the toolchain .tar.gz file'
-        required: true
-        default: 'https://github.com/ashleypixie/Mirror-Source-Clang22-Prebuilt/releases/download/clang-22-r596125/clang-r596125.tar.gz'
-        type: string
       CLEAN_BUILD:
         description: 'Clean before building?'
         required: true
@@ -57,10 +52,11 @@ jobs:
 
       - name: Download and Extract Toolchain
         run: |
-          curl -LO "${{ github.event.inputs.TOOLCHAIN_URL }}"
-          FILE_NAME=$(basename "${{ github.event.inputs.TOOLCHAIN_URL }}")
-          tar -xf "$FILE_NAME"
-          rm "$FILE_NAME"
+          sudo apt-get install python2 pahole libelf-dev -y
+          DIR="$(readlink -f .)"
+          PARENT_DIR="$(readlink -f "${DIR}/..")"
+          git clone https://gitlab.com/tejas101k/clang-r450784d.git/ "$PARENT_DIR/clang-r450784d" --depth=1
+      - uses: rui314/setup-mold@v1
 
       - name: Set Scripts Executable
         run: |
